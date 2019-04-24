@@ -49,8 +49,15 @@ patterns: [
                                 name: 'constant.character.escape.smash'
                             }
                             {
-                                match: '\\{\\{[^\\{\\}\\\\]+\\}\\}|\\{[^\\{\\}\\\\]+\\}'
+                                begin: '\\{\\{?'
+                                end: '\\}\\}?'
                                 name: 'variable.smash'
+                                patterns: [
+                                    {
+                                        match: ':'
+                                        name: 'keyword.control.identifier.lookahead.smash'
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -64,8 +71,15 @@ patterns: [
                                 name: 'constant.character.escape.smash'
                             }
                             {
-                                match: '\\{\\{[^\\{\\}\\\\]+\\}\\}|\\{[^\\{\\}\\\\]+\\}'
+                                begin: '\\{\\{?'
+                                end: '\\}\\}?'
                                 name: 'variable.smash'
+                                patterns: [
+                                    {
+                                        match: ':'
+                                        name: 'keyword.control.identifier.lookahead.smash'
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -79,14 +93,28 @@ patterns: [
                                 name: 'constant.character.escape.smash'
                             }
                             {
-                                match: '\\{\\{[^\\{\\}\\\\]+\\}\\}|\\{[^\\{\\}\\\\]+\\}'
+                                begin: '\\{\\{?'
+                                end: '\\}\\}?'
                                 name: 'variable.smash'
+                                patterns: [
+                                    {
+                                        match: ':'
+                                        name: 'keyword.control.identifier.lookahead.smash'
+                                    }
+                                ]
                             }
                         ]
                     }
                     {
-                        match: '\\{\\{[^\\{\\}\\\\]+\\}\\}|\\{[^\\{\\}\\\\]+\\}'
+                        begin: '\\{\\{?'
+                        end: '\\}\\}?'
                         name: 'variable.smash'
+                        patterns: [
+                            {
+                                match: ':'
+                                name: 'keyword.control.identifier.lookahead.smash'
+                            }
+                        ]
                     }
                     {
                         match: '(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy]\\s+[Bb][Rr][Aa][Nn][Cc][Hh])|(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy]\\s+[Ss][Tt][Ee][Pp])|(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy][Tt][Hh][Ii][Nn][Gg])'
