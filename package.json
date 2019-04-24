@@ -1,0 +1,17 @@
+{
+  "name": "language-smash",
+  "version": "0.0.0",
+  "description": "SmashTEST language support in Atom",
+  "engines": {
+    "atom": "*"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": ""
+  },
+  "license": ""
+}
