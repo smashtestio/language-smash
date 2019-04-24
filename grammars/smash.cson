@@ -27,9 +27,17 @@ patterns: [
         ]
     }
     {
+        match: '^.*\\s+(\\-M|\\-T)(\\s+|$).*$'
+        name: 'comment.line.percentage.smash'
+        patterns: [
+            { include: '$self' }
+        ]
+    }
+    {
         match: '^\\s*(((\\-T|\\-M|\\-|\\+|\\.\\.|\\#|\\~|\\$|\\.\\?)\\s+)*)(\\*{1,3}\\s+)?((\'([^\\\\\']|(\\\\\\\\)*\\\\.)*\'|"([^\\\\"]|(\\\\\\\\)*\\\\.)*"|.*?)+?)((\\s+(\\-T|\\-M|\\-|\\+|\\.\\.|\\#|\\~|\\$|\\.\\?))*)(\\s+(?=\\{[^\\}]*$)|\\s*(\\/\\/.*$)|\\s*$)'
         captures:
             1: name: 'keyword.control.identifier.smash'
+            44: name: 'support.class.smash'
             5: {
                 patterns: [
                     {
@@ -83,7 +91,7 @@ patterns: [
                     }
                     {
                         match: '(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy]\\s+[Bb][Rr][Aa][Nn][Cc][Hh])|(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy]\\s+[Ss][Tt][Ee][Pp])|(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy][Tt][Hh][Ii][Nn][Gg])'
-                        name: 'entity.name.function.hook.smash'
+                        name: 'support.class.hook.smash'
                     }
                 ]
             }
