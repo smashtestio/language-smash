@@ -5,30 +5,30 @@ foldingStartMarker: '^(\\s*)$'
 foldingStopMarker: '^(\\s*)$'
 patterns: [
     {
-        begin: '^(\\s*)\\.\\.(\\s*)$'
-        end: '^(\\s*)$'
-        name: 'entity.name.function.smash'
-        patterns: [
-            { include: '$self' }
-        ]
-    }
-    {
-        match: '^.*\\s+\\.\\.(\\s+|$).*$'
-        name: 'entity.name.function.smash'
-        patterns: [
-            { include: '$self' }
-        ]
-    }
-    {
         match: '^.*\\s+(\\$|~)(\\s+|$).*$'
-        name: 'markup.italic.smash'
+        name: 'markup.italic.debug.smash'
         patterns: [
             { include: '$self' }
         ]
     }
     {
         match: '^.*\\s+(\\-M|\\-T)(\\s+|$).*$'
-        name: 'comment.line.percentage.smash'
+        name: 'comment.line.percentage.todo.smash'
+        patterns: [
+            { include: '$self' }
+        ]
+    }
+    {
+        begin: '^(\\s*)\\.\\.(\\s*)$'
+        end: '^(\\s*)$'
+        name: 'entity.name.function.sequential.smash'
+        patterns: [
+            { include: '$self' }
+        ]
+    }
+    {
+        match: '^.*\\s+\\.\\.(\\s+|$).*$'
+        name: 'entity.name.function.sequential.smash'
         patterns: [
             { include: '$self' }
         ]
