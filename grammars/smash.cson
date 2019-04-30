@@ -26,6 +26,37 @@ patterns: [
             { include: "#step" }
         ]
     }
+
+
+
+    {
+        begin: '^(?!\\s)(.*\\s+)?\\.\\.(\\s+(.*?)(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$|$))|$)'
+        end: '^(?! )'
+        name: 'entity.name.function.sequential.smash'
+        patterns: [
+            { include: "#step" }
+        ]
+    }
+    {
+        begin: '^ {4}(?!\\s)(.*\\s+)?\\.\\.(\\s+(.*?)(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$|$))|$)'
+        end: '^(?!(\\s*$| {4}))'
+        name: 'entity.name.function.sequential.smash'
+        patterns: [
+            { include: "#step" }
+        ]
+    }
+    {
+        begin: '^ {8}(?!\\s)(.*\\s+)?\\.\\.(\\s+(.*?)(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$|$))|$)'
+        end: '^(?!(\\s*$| {8}))'
+        name: 'entity.name.function.sequential.smash'
+        patterns: [
+            { include: "#step" }
+        ]
+    }
+
+
+
+
     {
         match: '^(.*\\s+)?\\.\\.(\\s+(.*?)(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$|$))|$)'
         name: 'entity.name.function.sequential.smash'
