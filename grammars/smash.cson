@@ -34,7 +34,7 @@ patterns: [
         ]
     }
     {
-        match: '^\\s*(((\\-T|\\-S|\\-M|\\-|\\+|\\.\\.|\\~|\\$|\\.\\?)\\s+)*)(\\*{1,3}\\s+)?((\'([^\\\\\']|(\\\\\\\\)*\\\\.)*\'|"([^\\\\"]|(\\\\\\\\)*\\\\.)*"|.*?)+?)((\\s+(\\-T|\\-S|\\-M|\\-|\\+|\\.\\.|\\~|\\$|\\.\\?))*)(\\s+(?=\\{[^\\}]*$)|\\s*(\\/\\/.*$)|\\s*$)'
+        match: '^\\s*(((\\-T|\\-S|\\-M|\\-|\\+|\\.\\.|\\~|\\$|\\.\\?)\\s+)*)(\\*{1,3}\\s+)?((\'([^\\\\\']|(\\\\\\\\)*\\\\.)*\'|"([^\\\\"]|(\\\\\\\\)*\\\\.)*"|.*?)+?)((\\s+(\\-T|\\-S|\\-M|\\-|\\+|\\.\\.|\\~|\\$|\\.\\?))*)(\\s+(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$))|\\s*(\\/\\/.*$)|\\s*$)'
         captures:
             1: name: 'keyword.control.identifier.smash'
             5: {
@@ -123,14 +123,48 @@ patterns: [
                 ]
             }
             11: name: 'keyword.control.identifier.smash'
-            15: name: 'comment.line.double-slash.smash'
+            16: name: 'comment.line.double-slash.smash'
     }
     {
-        begin: '{[^\\{\\}]*\\n'
-        end: '\\s*}'
+        begin: '(\\[\\{)[^\\{\\}\\[\\]]*\\n'
+        end: '\\s*(\\}\\])'
+        name: 'payloadblock.codeblock.smash'
+        beginCaptures:
+            1: name: 'string.quoted.other.smash'
+        endCaptures:
+            1: name: 'string.quoted.other.smash'
+        patterns: [
+            { include: 'source.js' }
+        ]
+    }
+    {
+        begin: '({)[^\\{\\}]*\\n'
+        end: '\\s*(})'
         name: 'codeblock.smash'
         patterns: [
             { include: 'source.js' }
+        ]
+    }
+    {
+        begin: '\\[[^\\[\\]]*\\n'
+        end: '\\s*\\]'
+        name: 'string.quoted.other.payloadblock.stringblock.smash'
+        patterns: [
+            {
+                match: '\\\\.',
+                name: 'constant.character.escape.smash'
+            }
+            {
+                begin: '\\{\\{?'
+                end: '\\}\\}?'
+                name: 'variable.smash'
+                patterns: [
+                    {
+                        match: ':'
+                        name: 'keyword.control.identifier.lookahead.smash'
+                    }
+                ]
+            }
         ]
     }
 ]
