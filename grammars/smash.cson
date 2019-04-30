@@ -44,21 +44,8 @@ patterns: [
                         end: '\''
                         name: 'string.quoted.single.smash'
                         patterns: [
-                            {
-                                match: '\\\\.',
-                                name: 'constant.character.escape.smash'
-                            }
-                            {
-                                begin: '\\{\\{?'
-                                end: '\\}\\}?'
-                                name: 'variable.smash'
-                                patterns: [
-                                    {
-                                        match: ':'
-                                        name: 'keyword.control.identifier.lookahead.smash'
-                                    }
-                                ]
-                            }
+                            { include: '#escapeChar' }
+                            { include: '#variable' }
                         ]
                     }
                     {
@@ -66,56 +53,13 @@ patterns: [
                         end: '\"'
                         name: 'string.quoted.double.smash'
                         patterns: [
-                            {
-                                match: '\\\\.',
-                                name: 'constant.character.escape.smash'
-                            }
-                            {
-                                begin: '\\{\\{?'
-                                end: '\\}\\}?'
-                                name: 'variable.smash'
-                                patterns: [
-                                    {
-                                        match: ':'
-                                        name: 'keyword.control.identifier.lookahead.smash'
-                                    }
-                                ]
-                            }
+                            { include: '#escapeChar' }
+                            { include: '#variable' }
                         ]
                     }
-                    {
-                        begin: '\\['
-                        end: '\\]'
-                        name: 'string.quoted.other.smash'
-                        patterns: [
-                            {
-                                match: '\\\\.',
-                                name: 'constant.character.escape.smash'
-                            }
-                            {
-                                begin: '\\{\\{?'
-                                end: '\\}\\}?'
-                                name: 'variable.smash'
-                                patterns: [
-                                    {
-                                        match: ':'
-                                        name: 'keyword.control.identifier.lookahead.smash'
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                    {
-                        begin: '\\{\\{?'
-                        end: '\\}\\}?'
-                        name: 'variable.smash'
-                        patterns: [
-                            {
-                                match: ':'
-                                name: 'keyword.control.identifier.lookahead.smash'
-                            }
-                        ]
-                    }
+                    { include: '#bracketedString' }
+                    { include: '#escapeChar' }
+                    { include: '#variable' }
                     {
                         match: '(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy]\\s+[Bb][Rr][Aa][Nn][Cc][Hh])|(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy]\\s+[Ss][Tt][Ee][Pp])|(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy][Tt][Hh][Ii][Nn][Gg])'
                         name: 'support.class.hook.smash'
@@ -126,8 +70,8 @@ patterns: [
             16: name: 'comment.line.double-slash.smash'
     }
     {
-        begin: '(\\[\\{)[^\\{\\}\\[\\]]*\\n'
-        end: '\\s*(\\}\\])'
+        begin: '(\\[\\{)[^\\{\\}\\[\\]]*$'
+        end: '^\\s*(\\}\\])'
         name: 'payloadblock.codeblock.smash'
         beginCaptures:
             1: name: 'string.quoted.other.smash'
@@ -138,33 +82,38 @@ patterns: [
         ]
     }
     {
-        begin: '({)[^\\{\\}]*\\n'
-        end: '\\s*(})'
+        begin: '(\\{)[^\\{\\}]*$'
+        end: '^\\s*(\\})'
         name: 'codeblock.smash'
         patterns: [
             { include: 'source.js' }
         ]
     }
-    {
-        begin: '\\[[^\\[\\]]*\\n'
-        end: '\\s*\\]'
-        name: 'string.quoted.other.payloadblock.stringblock.smash'
+    { include: '#bracketedString' }
+]
+repository:
+    variable: {
+        begin: '\\{\\{?'
+        end: '\\}\\}?'
+        name: 'variable.smash'
         patterns: [
             {
-                match: '\\\\.',
-                name: 'constant.character.escape.smash'
-            }
-            {
-                begin: '\\{\\{?'
-                end: '\\}\\}?'
-                name: 'variable.smash'
-                patterns: [
-                    {
-                        match: ':'
-                        name: 'keyword.control.identifier.lookahead.smash'
-                    }
-                ]
+                match: ':'
+                name: 'keyword.control.identifier.lookahead.smash'
             }
         ]
     }
-]
+    escapeChar: {
+        match: '\\\\.',
+        name: 'constant.character.escape.smash'
+    }
+    bracketedString: {
+        begin: '\\['
+        end: '\\]'
+        name: 'string.quoted.other.smash'
+        patterns: [
+            { include: '#escapeChar' }
+            { include: '#variable' }
+            { include: '#bracketedString' }
+        ]
+    }
