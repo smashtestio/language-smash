@@ -5,17 +5,17 @@ foldingStartMarker: '^(\\s*)$'
 foldingStopMarker: '^(\\s*)$'
 patterns: [
     {
-        match: '^.*\\s+(\\$|~)(\\s+|$).*$'
+        match: '^.*\\s+(\\$|~)(\\s+(.*?)(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$|$))|$)'
         name: 'markup.italic.debug.smash'
         patterns: [
-            { include: '$self' }
+            { include: "#step" }
         ]
     }
     {
-        match: '^.*\\s+(\\-T|\\-S|\\-M)(\\s+|$).*$'
+        match: '^.*\\s+(\\-T|\\-S|\\-M)(\\s+(.*?)(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$|$))|$)'
         name: 'comment.line.percentage.todo.smash'
         patterns: [
-            { include: '$self' }
+            { include: "#step" }
         ]
     }
     {
@@ -23,17 +23,66 @@ patterns: [
         end: '^(\\s*)$'
         name: 'entity.name.function.sequential.smash'
         patterns: [
-            { include: '$self' }
+            { include: "#step" }
         ]
     }
     {
-        match: '^.*\\s+\\.\\.(\\s+|$).*$'
+        match: '^(.*\\s+)?\\.\\.(\\s+(.*?)(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$|$))|$)'
         name: 'entity.name.function.sequential.smash'
         patterns: [
-            { include: '$self' }
+            { include: "#step" }
+        ]
+    }
+    { include: "#step" }
+    {
+        begin: '\\[\\{'
+        end: '\\}\\]'
+        name: 'payloadcodeblock.smash'
+        beginCaptures:
+            0: name: 'string.quoted.other.smash'
+        endCaptures:
+            0: name: 'string.quoted.other.smash'
+        patterns: [
+            { include: 'source.js' }
         ]
     }
     {
+        begin: '\\{'
+        end: '\\}'
+        name: 'codeblock.smash'
+        patterns: [
+            { include: 'source.js' }
+        ]
+    }
+    { include: '#bracketedString' }
+]
+repository:
+    variable: {
+        begin: '\\{\\{?'
+        end: '\\}\\}?'
+        name: 'variable.smash'
+        patterns: [
+            {
+                match: ':'
+                name: 'keyword.control.identifier.lookahead.smash'
+            }
+        ]
+    }
+    escapeChar: {
+        match: '\\\\.',
+        name: 'constant.character.escape.smash'
+    }
+    bracketedString: {
+        begin: '\\['
+        end: '\\]'
+        name: 'string.quoted.other.smash'
+        patterns: [
+            { include: '#escapeChar' }
+            { include: '#variable' }
+            { include: '#bracketedString' }
+        ]
+    }
+    step: {
         match: '^\\s*(((\\-T|\\-S|\\-M|\\-|\\+|\\.\\.|\\~|\\$|\\.\\?)\\s+)*)(\\*{1,3}\\s+)?((\'([^\\\\\']|(\\\\\\\\)*\\\\.)*\'|"([^\\\\"]|(\\\\\\\\)*\\\\.)*"|.*?)+?)((\\s+(\\-T|\\-S|\\-M|\\-|\\+|\\.\\.|\\~|\\$|\\.\\?))*)(\\s+(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$))|\\s*(\\/\\/.*$)|\\s*$)'
         captures:
             1: name: 'keyword.control.identifier.smash'
@@ -68,52 +117,4 @@ patterns: [
             }
             11: name: 'keyword.control.identifier.smash'
             16: name: 'comment.line.double-slash.smash'
-    }
-    {
-        begin: '(\\[\\{)[^\\{\\}\\[\\]]*$'
-        end: '^\\s*(\\}\\])'
-        name: 'payloadblock.codeblock.smash'
-        beginCaptures:
-            1: name: 'string.quoted.other.smash'
-        endCaptures:
-            1: name: 'string.quoted.other.smash'
-        patterns: [
-            { include: 'source.js' }
-        ]
-    }
-    {
-        begin: '(\\{)[^\\{\\}]*$'
-        end: '^\\s*(\\})'
-        name: 'codeblock.smash'
-        patterns: [
-            { include: 'source.js' }
-        ]
-    }
-    { include: '#bracketedString' }
-]
-repository:
-    variable: {
-        begin: '\\{\\{?'
-        end: '\\}\\}?'
-        name: 'variable.smash'
-        patterns: [
-            {
-                match: ':'
-                name: 'keyword.control.identifier.lookahead.smash'
-            }
-        ]
-    }
-    escapeChar: {
-        match: '\\\\.',
-        name: 'constant.character.escape.smash'
-    }
-    bracketedString: {
-        begin: '\\['
-        end: '\\]'
-        name: 'string.quoted.other.smash'
-        patterns: [
-            { include: '#escapeChar' }
-            { include: '#variable' }
-            { include: '#bracketedString' }
-        ]
     }
