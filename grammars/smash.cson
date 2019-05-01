@@ -4,59 +4,105 @@ fileTypes: ['smash']
 foldingStartMarker: '^(\\s*)$'
 foldingStopMarker: '^(\\s*)$'
 patterns: [
-    {
-        match: '^.*\\s+(\\$|~)(\\s+(.*?)(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$|$))|$)'
-        name: 'markup.italic.debug.smash'
-        patterns: [
-            { include: "#step" }
-        ]
-    }
-    {
-        match: '^.*\\s+(\\-T|\\-S|\\-M)(\\s+(.*?)(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$|$))|$)'
-        name: 'comment.line.percentage.todo.smash'
-        patterns: [
-            { include: "#step" }
-        ]
-    }
-    {
-        begin: '^(\\s*)\\.\\.(\\s*)$'
-        end: '^(\\s*)$'
-        name: 'entity.name.function.sequential.smash'
-        patterns: [
-            { include: "#step" }
-        ]
-    }
-    {
-        match: '^(.*\\s+)?\\.\\.(\\s+(.*?)(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$|$))|$)'
-        name: 'entity.name.function.sequential.smash'
-        patterns: [
-            { include: "#step" }
-        ]
-    }
-    { include: "#step" }
-    {
-        begin: '\\[\\{'
-        end: '\\}\\]'
-        name: 'payloadcodeblock.smash'
-        beginCaptures:
-            0: name: 'string.quoted.other.smash'
-        endCaptures:
-            0: name: 'string.quoted.other.smash'
-        patterns: [
-            { include: 'source.js' }
-        ]
-    }
-    {
-        begin: '\\{'
-        end: '\\}'
-        name: 'codeblock.smash'
-        patterns: [
-            { include: 'source.js' }
-        ]
-    }
+    { include: '#skipStep' }
+    { include: '#todoStep' }
+    { include: '#debug' }
+    { include: '#sequentialStepBlock' }
+    { include: '#sequentialStep' }
+    { include: '#step' }
+    { include: '#payloadCodeBlock' }
+    { include: '#codeBlock' }
     { include: '#bracketedString' }
 ]
 repository:
+    skipStep: {
+        match: '^(|.*\\s)(\\-S)(\\s+(.*?)(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$|$))|$)'
+        name: 'comment.line.percentage.skipstep.smash'
+    }
+    todoStep: {
+        begin: '^(\\s*)(\\S.*\\s)?(\\-T|\\-M)(\\s+(.*?)(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$|$))|$)'
+        end: '^(?!\\1\\s+)(?!\\s*$)'
+        name: 'comment.line.percentage.todostep.smash'
+    }
+    debug: {
+        match: '^(|.*\\s)(\\$|~)(\\s+(.*?)(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$|$))|$)'
+        name: 'markup.italic.debug.smash'
+        patterns: [
+            { include: "$self" }
+        ]
+    }
+    sequentialStepBlock: {
+        begin: '^(\\s*)\\.\\.(\\s*)$'
+        end: '^(?!\\1\\S)'
+        name: 'entity.name.function.sequential.smash'
+        patterns: [
+            { include: "$self" }
+        ]
+    }
+    sequentialStep: {
+        begin: '^(\\s*)(\\S.*\\s)?\\.\\.(\\s+(.*?)(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$|$))|$)'
+        end: '^(?!\\1\\s+)(?!\\s*$)'
+        name: 'entity.name.function.sequential.smash'
+        beginCaptures:
+            0: patterns: [
+                { include: "#partialSeqStep" }
+            ]
+        patterns: [
+            { include: '$self' }
+        ]
+    }
+    step: {
+        match: '^\\s*(((\\-T|\\-S|\\-M|\\-|\\+|\\.\\.|\\~|\\$|\\.\\?)\\s+)*)(\\*{1,3}\\s+)?((\'([^\\\\\']|(\\\\\\\\)*\\\\.)*\'|"([^\\\\"]|(\\\\\\\\)*\\\\.)*"|.*?)+?)((\\s+(\\-T|\\-S|\\-M|\\-|\\+|\\.\\.|\\~|\\$|\\.\\?))*)(\\s+(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$))|\\s*(\\/\\/.*$)|\\s*$)'
+        captures:
+            1: name: 'keyword.control.identifier.smash'
+            5: {
+                patterns: [
+                    { include: '#singleQuote' }
+                    { include: '#doubleQuote' }
+                    { include: '#bracketedString' }
+                    { include: '#escapeChar' }
+                    { include: '#variable' }
+                    { include: '#hook' }
+                ]
+            }
+            11: name: 'keyword.control.identifier.smash'
+            16: name: 'comment.line.double-slash.smash'
+    }
+    partialSeqStep: {
+        match: '\\s*(((\\-T|\\-S|\\-M|\\-|\\+|\\~|\\$|\\.\\?)\\s+)*)(\\*{1,3}\\s+)?((\'([^\\\\\']|(\\\\\\\\)*\\\\.)*\'|"([^\\\\"]|(\\\\\\\\)*\\\\.)*"|.*?)+?)((\\s+(\\-T|\\-S|\\-M|\\-|\\+|\\~|\\$|\\.\\?))*)(\\s+(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$))|\\s*(\\/\\/.*$)|\\s*$)'
+        captures:
+            1: name: 'keyword.control.identifier.smash'
+            5: {
+                patterns: [
+                    { include: '#singleQuote' }
+                    { include: '#doubleQuote' }
+                    { include: '#bracketedString' }
+                    { include: '#escapeChar' }
+                    { include: '#variable' }
+                    { include: '#hook' }
+                ]
+            }
+            11: name: 'keyword.control.identifier.smash'
+            16: name: 'comment.line.double-slash.smash'
+    }
+    singleQuote: {
+        begin: '\''
+        end: '\''
+        name: 'string.quoted.single.smash'
+        patterns: [
+            { include: '#escapeChar' }
+            { include: '#variable' }
+        ]
+    }
+    doubleQuote: {
+        begin: '\"'
+        end: '\"'
+        name: 'string.quoted.double.smash'
+        patterns: [
+            { include: '#escapeChar' }
+            { include: '#variable' }
+        ]
+    }
     variable: {
         begin: '\\{\\{?'
         end: '\\}\\}?'
@@ -82,39 +128,27 @@ repository:
             { include: '#bracketedString' }
         ]
     }
-    step: {
-        match: '^\\s*(((\\-T|\\-S|\\-M|\\-|\\+|\\.\\.|\\~|\\$|\\.\\?)\\s+)*)(\\*{1,3}\\s+)?((\'([^\\\\\']|(\\\\\\\\)*\\\\.)*\'|"([^\\\\"]|(\\\\\\\\)*\\\\.)*"|.*?)+?)((\\s+(\\-T|\\-S|\\-M|\\-|\\+|\\.\\.|\\~|\\$|\\.\\?))*)(\\s+(?=(\\[\\{[^\\}\\]]*$|\\{[^\\}]*$|\\[[^\\]]*$))|\\s*(\\/\\/.*$)|\\s*$)'
-        captures:
-            1: name: 'keyword.control.identifier.smash'
-            5: {
-                patterns: [
-                    {
-                        begin: '\''
-                        end: '\''
-                        name: 'string.quoted.single.smash'
-                        patterns: [
-                            { include: '#escapeChar' }
-                            { include: '#variable' }
-                        ]
-                    }
-                    {
-                        begin: '\"'
-                        end: '\"'
-                        name: 'string.quoted.double.smash'
-                        patterns: [
-                            { include: '#escapeChar' }
-                            { include: '#variable' }
-                        ]
-                    }
-                    { include: '#bracketedString' }
-                    { include: '#escapeChar' }
-                    { include: '#variable' }
-                    {
-                        match: '(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy]\\s+[Bb][Rr][Aa][Nn][Cc][Hh])|(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy]\\s+[Ss][Tt][Ee][Pp])|(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy][Tt][Hh][Ii][Nn][Gg])'
-                        name: 'support.class.hook.smash'
-                    }
-                ]
-            }
-            11: name: 'keyword.control.identifier.smash'
-            16: name: 'comment.line.double-slash.smash'
+    hook: {
+        match: '(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy]\\s+[Bb][Rr][Aa][Nn][Cc][Hh])|(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy]\\s+[Ss][Tt][Ee][Pp])|(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy][Tt][Hh][Ii][Nn][Gg])'
+        name: 'support.class.hook.smash'
+    }
+    payloadCodeBlock: {
+        begin: '\\[\\{'
+        end: '\\}\\]'
+        name: 'payloadcodeblock.smash'
+        beginCaptures:
+            0: name: 'string.quoted.other.smash'
+        endCaptures:
+            0: name: 'string.quoted.other.smash'
+        patterns: [
+            { include: 'source.js' }
+        ]
+    }
+    codeBlock: {
+        begin: '\\{'
+        end: '\\}'
+        name: 'codeblock.smash'
+        patterns: [
+            { include: 'source.js' }
+        ]
     }
