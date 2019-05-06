@@ -32,9 +32,11 @@ repository:
         ]
     }
     sequentialStepBlock: {
-        begin: '^(\\s*)\\.\\.(\\s*)$'
+        begin: '^(\\s*)\\.\\.(\\s*)(\/\/.*)?$'
         end: '^(?!\\1\\S)'
         name: 'entity.name.function.sequential.smash'
+        beginCaptures:
+            3: name: 'comment.line.double-slash.smash'
         patterns: [
             { include: "$self" }
         ]
@@ -86,7 +88,7 @@ repository:
             16: name: 'comment.line.double-slash.smash'
     }
     singleQuote: {
-        begin: '\''
+        begin: '\'(?=.*\')'
         end: '\''
         name: 'string.quoted.single.smash'
         patterns: [
