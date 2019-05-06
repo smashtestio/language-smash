@@ -10,9 +10,7 @@ patterns: [
     { include: '#sequentialStepBlock' }
     { include: '#sequentialStep' }
     { include: '#step' }
-    { include: '#payloadCodeBlock' }
     { include: '#codeBlock' }
-    { include: '#bracketedString' }
 ]
 repository:
     skipStep: {
@@ -133,18 +131,6 @@ repository:
     hook: {
         match: '(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy]\\s+[Bb][Rr][Aa][Nn][Cc][Hh])|(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy]\\s+[Ss][Tt][Ee][Pp])|(([Bb][Ee][Ff][Oo][Rr][Ee]|[Aa][Ff][Tt][Ee][Rr])\\s+[Ee][Vv][Ee][Rr][Yy][Tt][Hh][Ii][Nn][Gg])'
         name: 'support.class.hook.smash'
-    }
-    payloadCodeBlock: {
-        begin: '\\[\\{'
-        end: '\\}\\]'
-        name: 'payloadcodeblock.smash'
-        beginCaptures:
-            0: name: 'string.quoted.other.smash'
-        endCaptures:
-            0: name: 'string.quoted.other.smash'
-        patterns: [
-            { include: 'source.js' }
-        ]
     }
     codeBlock: {
         begin: '\\{'
