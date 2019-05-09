@@ -5,7 +5,6 @@ foldingStartMarker: '^(\\s*)$'
 foldingStopMarker: '^(\\s*)$'
 patterns: [
     { include: '#skipStep' }
-    { include: '#todoStep' }
     { include: '#debug' }
     { include: '#sequentialStepBlock' }
     { include: '#sequentialStep' }
@@ -14,13 +13,8 @@ patterns: [
 ]
 repository:
     skipStep: {
-        match: '^(|.*\\s)(\\-S)(\\s+(.*?)(?=(\\{[^\\}]*$|$))|$)'
+        match: '^(|.*\\s)(\\-T|\\-S|\\-M)(\\s+(.*?)(?=(\\{[^\\}]*$|$))|$)'
         name: 'comment.line.percentage.skipstep.smash'
-    }
-    todoStep: {
-        begin: '^(\\s*)(\\S.*\\s)?(\\-T|\\-M)(\\s+(.*?)(?=(\\{[^\\}]*$|$))|$)'
-        end: '^(?!\\1\\s+)(?!\\s*$)'
-        name: 'comment.line.percentage.todostep.smash'
     }
     debug: {
         match: '^(|.*\\s)(\\$|~)(\\s+(.*?)(?=(\\{[^\\}]*$|$))|$)'
