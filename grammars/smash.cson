@@ -42,7 +42,7 @@ repository:
         ]
     }
     textualStep: {
-        match: '^\\s*(\\-\\s+.*?|.*?\\s\\-\\s*)(\\{[^\\}]*$|\\s*\\/\\/.*$|$)'
+        match: '(^\\s*(\\-\\s+.*?|.*?\\s\\-\\s*)((?=(\\{[^\\}]*$))|\\s*\\/\\/.*$|$))|(^\\s*[^\\*\\s].*\\s(?=(\\{[^\\}]*$)))'
         name: 'textual.smash'
         captures:
             0: patterns: [
@@ -92,6 +92,7 @@ repository:
             4: {
                 patterns: [
                     { include: '#escapeChar' }
+                    { include: '#variable' }
                 ]
             }
             11: name: 'keyword.control.modifier.smash'
