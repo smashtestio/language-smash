@@ -4,6 +4,7 @@ fileTypes: ['smash']
 foldingStartMarker: '^(\\s*)$'
 foldingStopMarker: '^(\\s*)$'
 patterns: [
+    { include: '#fullComment' }
     { include: '#debug' }
     { include: '#sequentialStepBlock' }
     { include: '#sequentialStep' }
@@ -12,6 +13,10 @@ patterns: [
     { include: '#codeBlock' }
 ]
 repository:
+    fullComment: {
+        match: '^\\s*//.*$'
+        name: 'comment.line.double-slash.smash'
+    }
     debug: {
         match: '^(|.*\\s)(\\$|\\~\\~|\\~)(\\s+(.*?)(?=(\\{[^\\}]*$|$))|$)'
         name: 'markup.italic.debug.smash'
