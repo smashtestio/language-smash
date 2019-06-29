@@ -138,7 +138,7 @@ repository:
     variable: {
         begin: '\\{\\{?'
         end: '\\}\\}?'
-        name: 'variable.smash'
+        name: 'string.quoted.other.variable.smash'
         patterns: [
             {
                 match: ':'
