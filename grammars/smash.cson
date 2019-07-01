@@ -6,8 +6,6 @@ foldingStopMarker: '^(\\s*)$'
 patterns: [
     { include: '#fullComment' }
     { include: '#debug' }
-    { include: '#sequentialStepBlock' }
-    { include: '#sequentialStep' }
     { include: '#textualStep' }
     { include: '#step' }
     { include: '#codeBlock' }
@@ -22,28 +20,6 @@ repository:
         name: 'markup.italic.debug.smash'
         patterns: [
             { include: "$self" }
-        ]
-    }
-    sequentialStepBlock: {
-        begin: '^(\\s*)\\.\\.(\\s*)(\/\/.*)?$'
-        end: '^(?!\\1\\S)'
-        name: 'entity.name.function.sequential.smash'
-        beginCaptures:
-            3: name: 'comment.line.double-slash.smash'
-        patterns: [
-            { include: "$self" }
-        ]
-    }
-    sequentialStep: {
-        begin: '^(\\s*)(\\S.*\\s)?\\.\\.(\\s+(.*?)(?=(\\{[^\\}]*$|$))|$)'
-        end: '^(?!\\1\\s+)(?!\\s*$)'
-        name: 'entity.name.function.sequential.smash'
-        beginCaptures:
-            0: patterns: [
-                { include: "#partialSeqStep" }
-            ]
-        patterns: [
-            { include: '$self' }
         ]
     }
     textualStep: {
@@ -73,23 +49,6 @@ repository:
                 ]
             }
             7: name: 'comment.line.double-slash.smash'
-            13: name: 'keyword.control.modifier.smash'
-            18: name: 'comment.line.double-slash.smash'
-            19: name: 'comment.line.double-slash.smash'
-    }
-    partialSeqStep: {
-        match: '\\s*(((\\-s|\\.s|\\$s|\\-|\\!|\\~\\~|\\~|\\$|\\+\\?|\\+|\\#[^\\s]+)\\s+)*)((\\*{1,3}\\s+|(\\[|\\])\s*(\\/\\/.*)?$)?(\'([^\\\\\']|(\\\\\\\\)*\\\\.)*\'|"([^\\\\"]|(\\\\\\\\)*\\\\.)*"|.*?)+?)((\\s+(\\-s|\\.s|\\$s|\\-|\\!|\\~\\~|\\~|\\$|\\+\\?|\\+|\\#[^\\s]+))*)(\\s+(?=(\\{[^\\}]*$))|\\s+\\[\\s*(\\/\\/.*)?$|\\s*(\\/\\/.*$)|\\s*$)'
-        captures:
-            1: name: 'keyword.control.modifier.smash'
-            4: {
-                patterns: [
-                    { include: '#singleQuote' }
-                    { include: '#doubleQuote' }
-                    { include: '#bracketedString' }
-                    { include: '#escapeChar' }
-                    { include: '#variable' }
-                ]
-            }
             13: name: 'keyword.control.modifier.smash'
             18: name: 'comment.line.double-slash.smash'
             19: name: 'comment.line.double-slash.smash'
