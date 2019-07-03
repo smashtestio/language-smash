@@ -1,6 +1,6 @@
 {
   "name": "language-smash",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "SmashTEST language support in Atom",
   "engines": {
     "atom": "*"
@@ -8,10 +8,10 @@
   "dependencies": {},
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/smashtestio/language-smash.git"
   },
   "bugs": {
-    "url": ""
+    "url": "https://github.com/smashtestio/language-smash/issues"
   },
-  "license": ""
+  "license": "MIT"
 }
