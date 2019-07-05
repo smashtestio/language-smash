@@ -1,6 +1,8 @@
-# SmashTEST language support in Atom
+# Smashtest language support in Atom
 
-## Setup
+## Features
+
+* Syntax highlighting of .smash files
 
 ## See Also
 
