@@ -1,6 +1,6 @@
 {
   "name": "language-smash",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Smashtest language support in Atom",
   "engines": {
     "atom": "*"
