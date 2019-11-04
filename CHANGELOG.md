@@ -1,6 +1,6 @@
 # Changelog
 
-# 0.5.6
+## 0.5.6
 
 - Fixed atom freezing issue in windows
 - Fixed issue with // inside string rendering as a comment
